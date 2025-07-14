@@ -34,8 +34,6 @@ RUN yarn install
 
 RUN composer install --no-dev --optimize-autoloader
 
-COPY .env .env
-
 RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
