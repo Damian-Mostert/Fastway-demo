@@ -157,3 +157,21 @@
         @apply bg-background text-foreground;
     }
 }
+
+
+.fastway-content{
+    display: flex;
+    flex-direction: column;
+    table{
+        border: 1px solid var(--border);
+        margin-bottom: 1rem;
+        tr{
+            &:nth-child(2n){
+                background: var(--sidebar);
+            }
+            td{
+                padding: 1rem;
+            }
+        }
+    }
+}

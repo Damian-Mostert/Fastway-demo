@@ -30,9 +30,7 @@ export default function ItemDetails({
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title={`Parcel - ${trackingNumber}`}/>
             <div className="flex h-full flex-1 flex-col gap-4 rounded-xl p-4 overflow-x-auto">
-                <div dangerouslySetInnerHTML={{__html:body}}>
-
-                </div>
+                <div dangerouslySetInnerHTML={{__html:body}} className='fastway-content'></div>
             </div>
         </AppLayout>
     );
