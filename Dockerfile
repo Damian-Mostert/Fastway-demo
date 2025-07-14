@@ -36,6 +36,7 @@ RUN yarn install \
  && php artisan route:cache \
  && php artisan view:cache
 
+RUN php artisan migrate --force
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
  && chmod -R 775 storage bootstrap/cache
