@@ -32,8 +32,7 @@ COPY . .
 # Install PHP & JS dependencies
 RUN yarn install
 
-RUN composer install --no-dev --optimize-autoloader
-
+RUN composer install
 RUN php artisan config:cache
 RUN php artisan route:cache
 RUN php artisan view:cache
