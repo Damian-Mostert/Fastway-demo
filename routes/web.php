@@ -13,13 +13,24 @@ Route::get('/', function (Request $request) {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('dashboard', function () {
-        return Inertia::render('dashboard');
-    })->name('dashboard');
+    Route::get('analytics', function (Request $request) {
+        $user = $request->user();
+        if (!$user) {
+            abort(500, 'No user');
+        }
+        $analytics = $user->analytics()->first();
+
+        return Inertia::render('analytics', [
+            'total_tracked' => $analytics?->total_tracked ?? 0,
+            'total_quotes' => $analytics?->total_quotes ?? 0,
+            'total_shipped' => $analytics?->total_shipped ?? 0,
+        ]);
+    })->name('analytics');
+    Route::get('/home', function () {
+        return Inertia::render('home');
+    })->name('portal-home');
 });
-Route::get('/home', function () {
-    return Inertia::render('home');
-})->name('portal-home');
 
 require __DIR__.'/settings.php';
+require __DIR__.'/api.php';
 require __DIR__.'/auth.php';
