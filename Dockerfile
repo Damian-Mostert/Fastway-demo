@@ -30,13 +30,17 @@ WORKDIR /var/www
 COPY . .
 
 # Install PHP & JS dependencies
-RUN yarn install \
- && composer install --no-dev --optimize-autoloader \
- && php artisan config:cache \
- && php artisan route:cache \
- && php artisan view:cache
+RUN yarn install
 
+RUN composer install --no-dev --optimize-autoloader
+
+COPY .env .env
+
+RUN php artisan config:cache
+RUN php artisan route:cache
+RUN php artisan view:cache
 RUN php artisan migrate --force
+
 # Set permissions
 RUN chown -R www-data:www-data /var/www \
  && chmod -R 775 storage bootstrap/cache
