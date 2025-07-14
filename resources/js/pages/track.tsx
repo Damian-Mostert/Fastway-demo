@@ -69,7 +69,7 @@ export function TrackingForm(){
         submitForm()
     }}>
         <div className="grid gap-6">
-            <h2 className='text-3xl text-center'>Track and Trace a Parcel</h2>
+            <h2 className='text-3xl'>Track and Trace a Parcel</h2>
             <div className="grid gap-2">
                 <Label htmlFor="text">Enter tracking number</Label>
                 <Input
@@ -82,7 +82,7 @@ export function TrackingForm(){
                     onChange={(e) => setData({
                         trackingNumber:e.target.value
                     })}
-                    placeholder="Z00000000000"
+                    placeholder="Z0000000000"
                 />
                 <InputError message={errors.trackingNumber} />
             </div>

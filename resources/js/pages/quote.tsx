@@ -34,6 +34,7 @@ export default function Dashboard() {
 
 type quoteForm = {
     destination:string,
+    destination_b:string,
     postal_code:string,
     weight:number,
 	dimensions_x:number,
@@ -48,6 +49,7 @@ export function QuoteForm(){
 	const { values:data, setValues:setData, submitForm, errors, resetForm } = useFormik<Required<quoteForm>>({
 		initialValues:{
             destination:"",
+            destination_b:"",
             postal_code:"",
             weight:0,
             dimensions_x:0,
@@ -56,6 +58,7 @@ export function QuoteForm(){
 		},
 		validationSchema:Yup.object({
             destination:Yup.string().required(),
+            destination_b:Yup.string().required(),
             postal_code:Yup.string().required(),
             weight:Yup.number().min(1).max(30),
             dimensions_x:Yup.number().min(1).max(500),
@@ -67,7 +70,6 @@ export function QuoteForm(){
 				onSuccess(){
 				},
 				onError(error){
-					resetForm()
 					alert("Failed to generate a quote") 
 				},
 			});
@@ -85,7 +87,7 @@ export function QuoteForm(){
         submitForm()
     }}>
         <div className="grid gap-6">
-            <h2 className='text-3xl text-center'>Get a Quote for Sending a Parcel</h2>
+            <h2 className='text-3xl'>Get a Quote for Sending a Parcel</h2>
             <div className="grid gap-2">
                 <Label htmlFor="text">Destination</Label>
                 <Input
@@ -102,6 +104,23 @@ export function QuoteForm(){
                     placeholder=""
                 />
                 <InputError message={errors.destination} />
+            </div>
+            <div className="grid gap-2">
+                <Label htmlFor="text">Destination B</Label>
+                <Input
+                    id="text"
+                    type="text"
+                    name="destination_b"
+                    tabIndex={1}
+                    value={data.destination_b}
+                    //@ts-ignore
+                    onChange={(e) => setData({
+                        ...data,
+                        destination_b:e.target.value
+                    })}
+                    placeholder=""
+                />
+                <InputError message={errors.destination_b} />
             </div>
             <div className="grid gap-2">
                 <Label htmlFor="text">Postal code</Label>
@@ -138,10 +157,10 @@ export function QuoteForm(){
                 <InputError message={errors.weight} />
             </div>						                            
             <div className="grid gap-2">
-                <Label htmlFor="text">Parcel dimensions (in Inches)</Label>
+                <Label htmlFor="text">Parcel dimensions (in CM)</Label>
                 <div className='w-full flex gap-8'>
                     <div className="flex w-full items-center gap-4">
-                        <Label htmlFor="text">X</Label>
+                        <Label htmlFor="text">Width</Label>
                         <Input
                             id="text"
                             type="number"
@@ -157,7 +176,7 @@ export function QuoteForm(){
                         />
                     </div>	
                     <div className="flex w-full items-center gap-4">
-                        <Label htmlFor="text">Y</Label>
+                        <Label htmlFor="text">Length</Label>
                         <Input
                             id="text"
                             type="number"
@@ -173,7 +192,7 @@ export function QuoteForm(){
                         />
                     </div>	
                     <div className="flex w-full items-center gap-4">
-                        <Label htmlFor="text">Z</Label>
+                        <Label htmlFor="text">Height</Label>
                         <Input
                             id="text"
                             type="number"

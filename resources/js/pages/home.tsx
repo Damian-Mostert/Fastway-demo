@@ -16,7 +16,7 @@ export default function Dashboard() {
 	return (
 		<AppLayout breadcrumbs={breadcrumbs}>
 			<Head title="Home" />
-			<div className='w-full flex flex-col m-auto gap-16 lg:w-2/3 pb-8'>
+			<div className='w-full flex p-4 flex-col m-auto gap-16 lg:w-2/3 pb-8'>
                 <TrackingForm/>
                 <QuoteForm/>
             </div>

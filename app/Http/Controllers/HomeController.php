@@ -43,24 +43,19 @@ class HomeController extends Controller
     {
         Validator::make($request->all(), [
             'destination' => 'required',
+            'destination_2' => 'required',
             'postal_code' => 'required',
             'weight' => 'required',
             'dimensions_x' => 'required',
             'dimensions_y' => 'required',
             'dimensions_z' => 'required',
         ])->validate();
-        $response = fetch(env('FASTWAY_API_BASE_URL').'latest/tracktrace/render/'.$request->trackingNumber.'?api_key='.env('FASTWAY_API_KEY'));
-        if ($response->hasJsonContent()) {
-            return Inertia::render('generated-quote', [
-                'title' => 'Error generating quote',
-                'body' => "<div class='m-auto'>Could not generate a quote, <a href='/track' class='text-[#BA0C2F]'>go back</a></div>",
-            ]);
-        }
+        $response = fetch(env('FASTWAY_API_BASE_URL').'latest/psc/lookup/'.$request->destination.'/'.$request->destination_2.'/'.$request->postal_code.'/&WidthInCm='.$request->dimensions_x.'&LengthInCm='.$request->dimensions_y.'&HeightInCm='.$request->dimensions_z.'&WeightInKg='.$request->weight.'&api_key='.env('FASTWAY_API_KEY'));
         $this->user_analytics->track_quote($request->user()->id);
 
         return Inertia::render('generated-quote', [
             'title' => 'Generated quote',
-            'body' => $response->text(),
+            'body' => '',
         ]);
     }
 }
