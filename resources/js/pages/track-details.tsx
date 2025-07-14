@@ -1,4 +1,3 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -11,14 +10,13 @@ type Props = {
 };
 
 export default function ItemDetails({
-    title,
     body,
     trackingNumber
 }:Props) {
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Track',
-            href: '/',
+            href: '/track',
         },
         {
             title: `Parcel - ${trackingNumber}`,

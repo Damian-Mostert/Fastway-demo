@@ -29,6 +29,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', function () {
         return Inertia::render('home');
     })->name('portal-home');
+    Route::get('/home', function () {
+        return Inertia::render('home');
+    })->name('portal-home');
+    Route::get('/track', function () {
+        return Inertia::render('track');
+    })->name('track');
+    Route::get('/quote', function () {
+        return Inertia::render('quote');
+    })->name('quote');
 });
 
 require __DIR__.'/settings.php';

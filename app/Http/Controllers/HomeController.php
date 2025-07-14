@@ -24,15 +24,15 @@ class HomeController extends Controller
         ])->validate();
         $response = fetch(env('FASTWAY_API_BASE_URL').'latest/tracktrace/render/'.$request->trackingNumber.'?api_key='.env('FASTWAY_API_KEY'));
         if ($response->hasJsonContent()) {
-            return Inertia::render('track/details', [
+            return Inertia::render('track-details', [
                 'title' => $request->trackingNumber,
                 'trackingNumber' => $request->trackingNumber,
-                'body' => "<div class='m-auto'>Invalid tracking number, <a href='/home' class='text-[#BA0C2F]'>go back</a></div>",
+                'body' => "<div class='m-auto'>Invalid tracking number, <a href='/track' class='text-[#BA0C2F]'>go back</a></div>",
             ]);
         }
         $this->user_analytics->track_tracked($request->user()->id);
 
-        return Inertia::render('track/details', [
+        return Inertia::render('track-details', [
             'title' => $request->trackingNumber,
             'trackingNumber' => $request->trackingNumber,
             'body' => $response->text(),
@@ -49,10 +49,18 @@ class HomeController extends Controller
             'dimensions_y' => 'required',
             'dimensions_z' => 'required',
         ])->validate();
-
+        $response = fetch(env('FASTWAY_API_BASE_URL').'latest/tracktrace/render/'.$request->trackingNumber.'?api_key='.env('FASTWAY_API_KEY'));
+        if ($response->hasJsonContent()) {
+            return Inertia::render('generated-quote', [
+                'title' => 'Error generating quote',
+                'body' => "<div class='m-auto'>Could not generate a quote, <a href='/track' class='text-[#BA0C2F]'>go back</a></div>",
+            ]);
+        }
         $this->user_analytics->track_quote($request->user()->id);
 
         return Inertia::render('generated-quote', [
+            'title' => 'Generated quote',
+            'body' => $response->text(),
         ]);
     }
 }
