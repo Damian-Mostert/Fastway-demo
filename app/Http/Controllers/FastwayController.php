@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Inertia\Inertia;
 
-class HomeController extends Controller
+class FastwayController extends Controller
 {
     private $user_analytics;
     private $fastway_provider;
@@ -39,7 +39,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function generate_quote(Request $request)
+    public function generate(Request $request)
     {
         Validator::make($request->all(), [
             'destination' => 'required',
@@ -50,12 +50,13 @@ class HomeController extends Controller
             'dimensions_y' => 'required',
             'dimensions_z' => 'required',
         ])->validate();
-        $response = fetch(env('FASTWAY_API_BASE_URL').'latest/psc/lookup/'.$request->destination.'/'.$request->destination_2.'/'.$request->postal_code.'/&WidthInCm='.$request->dimensions_x.'&LengthInCm='.$request->dimensions_y.'&HeightInCm='.$request->dimensions_z.'&WeightInKg='.$request->weight.'&api_key='.env('FASTWAY_API_KEY'));
+        $response = fetch(env('FASTWAY_API_BASE_URL').'latest/psc/lookup/'.$request->destination.'/'.$request->destination_2.'/'.$request->postal_code.'?WidthInCm='.$request->dimensions_x.'&LengthInCm='.$request->dimensions_y.'&HeightInCm='.$request->dimensions_z.'&WeightInKg='.$request->weight.'&api_key='.env('FASTWAY_API_KEY'));
+
         $this->user_analytics->track_quote($request->user()->id);
 
         return Inertia::render('generated-quote', [
             'title' => 'Generated quote',
-            'body' => '',
+            'body' => $response->text(),
         ]);
     }
 }

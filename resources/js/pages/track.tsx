@@ -55,7 +55,6 @@ export function TrackingForm(){
 					alert("Could not find parcel") 
 				},
 			});
-			resetForm()
 		},
 	});
 

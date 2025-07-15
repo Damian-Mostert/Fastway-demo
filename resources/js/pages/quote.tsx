@@ -34,7 +34,7 @@ export default function Dashboard() {
 
 type quoteForm = {
     destination:string,
-    destination_b:string,
+    destination_2:string,
     postal_code:string,
     weight:number,
 	dimensions_x:number,
@@ -49,7 +49,7 @@ export function QuoteForm(){
 	const { values:data, setValues:setData, submitForm, errors, resetForm } = useFormik<Required<quoteForm>>({
 		initialValues:{
             destination:"",
-            destination_b:"",
+            destination_2:"",
             postal_code:"",
             weight:0,
             dimensions_x:0,
@@ -58,7 +58,7 @@ export function QuoteForm(){
 		},
 		validationSchema:Yup.object({
             destination:Yup.string().required(),
-            destination_b:Yup.string().required(),
+            destination_2:Yup.string().required(),
             postal_code:Yup.string().required(),
             weight:Yup.number().min(1).max(30),
             dimensions_x:Yup.number().min(1).max(500),
@@ -66,10 +66,11 @@ export function QuoteForm(){
             dimensions_z:Yup.number().min(1).max(500),
 		}),
 		onSubmit(){
-			get("/api/v1/generate-quote",{
+			get("/api/v1/generate",{
 				onSuccess(){
 				},
 				onError(error){
+                    console.error(error)
 					alert("Failed to generate a quote") 
 				},
 			});
@@ -89,7 +90,7 @@ export function QuoteForm(){
         <div className="grid gap-6">
             <h2 className='text-3xl'>Get a Quote for Sending a Parcel</h2>
             <div className="grid gap-2">
-                <Label htmlFor="text">Destination</Label>
+                <Label htmlFor="text">From destination</Label>
                 <Input
                     id="text"
                     type="text"
@@ -106,21 +107,21 @@ export function QuoteForm(){
                 <InputError message={errors.destination} />
             </div>
             <div className="grid gap-2">
-                <Label htmlFor="text">Destination B</Label>
+                <Label htmlFor="text">To destination</Label>
                 <Input
                     id="text"
                     type="text"
-                    name="destination_b"
+                    name="destination_2"
                     tabIndex={1}
-                    value={data.destination_b}
+                    value={data.destination_2}
                     //@ts-ignore
                     onChange={(e) => setData({
                         ...data,
-                        destination_b:e.target.value
+                        destination_2:e.target.value
                     })}
                     placeholder=""
                 />
-                <InputError message={errors.destination_b} />
+                <InputError message={errors.destination_2} />
             </div>
             <div className="grid gap-2">
                 <Label htmlFor="text">Postal code</Label>
