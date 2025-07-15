@@ -2,12 +2,23 @@
 
 Please see Laravel documentation about env config.
 
-Based off of the [Laravel React Starter kit](https://github.com/laravel/react-starter-kit), Re skinned and modified to be a dashboard for fastway parcel tracking and quotes
+Based off of the [Laravel React Starter kit](https://github.com/laravel/react-starter-kit), Re skinned and modified to be a dashboard for Fastway parcel tracking and quotes.
 
-###### Please run
+###### To install dependencies pleas run
 ```bash
-npm i && composer install && php artisan migrate
+yarn i && composer install
 ```
+###### To do database migrations please run
+```bash
+php artisan migrate
+```
+###### To run the server please run
+```bash
+npm run build && php artisan serve
+```
+Server runs on port [8000](http://localhost:8000)
+
+## Pages
 
 #### Login
 ![Login](./assets/login.png)
