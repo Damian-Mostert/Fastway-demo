@@ -57,13 +57,13 @@ export function QuoteForm(){
             dimensions_z:0,
 		},
 		validationSchema:Yup.object({
-            destination:Yup.string().required(),
-            destination_2:Yup.string().required(),
-            postal_code:Yup.string().required(),
-            weight:Yup.number().min(1).max(30),
-            dimensions_x:Yup.number().min(1).max(500),
-            dimensions_y:Yup.number().min(1).max(500),
-            dimensions_z:Yup.number().min(1).max(500),
+            destination:Yup.string().required("Please enter a pickup point"),
+            destination_2:Yup.string().required("Please enter a destination"),
+            postal_code:Yup.string().required("Please enter postal code"),
+            weight:Yup.number().min(1,"Weight can not be less than 1 Kg").max(100,"Weight can not be less than 100 Kg"),
+            dimensions_x:Yup.number().min(1,"Width can not be 0cm or less than 0cm, thats not possible").max(500,"Width is to large"),
+            dimensions_y:Yup.number().min(1,"Length can not be 0cm or less than 0cm, thats not possible").max(500,"Length is to large"),
+            dimensions_z:Yup.number().min(1,"Height can not be 0cm or less than 0cm, thats not possible").max(500,"Height is to large"),
 		}),
 		onSubmit(){
 			get("/api/v1/generate",{
