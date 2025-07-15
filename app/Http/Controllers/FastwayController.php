@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Quote;
 use App\Models\UserAnalytics;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -51,12 +52,47 @@ class FastwayController extends Controller
             'dimensions_z' => 'required',
         ])->validate();
         $response = fetch(env('FASTWAY_API_BASE_URL').'latest/psc/lookup/'.$request->destination.'/'.$request->destination_2.'/'.$request->postal_code.'?WidthInCm='.$request->dimensions_x.'&LengthInCm='.$request->dimensions_y.'&HeightInCm='.$request->dimensions_z.'&WeightInKg='.$request->weight.'&api_key='.env('FASTWAY_API_KEY'));
-
-        $this->user_analytics->track_quote($request->user()->id);
+        $user = $request->user();
+        $this->user_analytics->track_quote($user->id);
+        $data = $response->json();
+        Quote::create([
+            'user_id' => $user->id,
+            'data' => $data,
+        ]);
 
         return Inertia::render('generated-quote', [
             'title' => 'Generated quote',
-            'body' => $response->text(),
+            'body' => json_encode($data),
+        ]);
+    }
+
+    public function get_old_quotes(Request $request)
+    {
+        $perPage = 10;
+        $page = $request?->page ?? 1;
+
+        $user = $request->user();
+        $quotes = Quote::where('user_id', $user->id)->orderByDesc('id')->select('id', 'created_at')->paginate($perPage, ['*'], 'page', $page);
+
+        return Inertia::render('old-quotes', [
+            'quotes' => $quotes,
+        ]);
+    }
+
+    public function view_old_quote(Request $request)
+    {
+        Validator::make($request->all(), [
+            'id' => ['required', 'exists:quotes'],
+        ])->validate();
+        $user = $request->user();
+        $q = Quote::where('user_id', $user->id)->where('id', $request->id)->first();
+        if (!$q) {
+            return abort(500);
+        }
+
+        return Inertia::render('old-quote', [
+            'title' => 'Generated quote',
+            'body' => json_encode($q->data),
         ]);
     }
 }

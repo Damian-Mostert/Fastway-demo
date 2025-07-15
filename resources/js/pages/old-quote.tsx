@@ -1,16 +1,12 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
-import type { Service } from '@/types/service';
 import { Head } from '@inertiajs/react';
-
+import type { Service } from '@/types/service';
 
 type Props = {
     title:string,
     body:any
 };
-
-
 
 export default function GeneratedQuote({
     title,
@@ -21,14 +17,13 @@ export default function GeneratedQuote({
 
     const breadcrumbs: BreadcrumbItem[] = [
         {
-            title: 'Track',
-            href: '/track',
+            title: 'Old Quotes',
+            href: '/old-quotes',
         },
         {
             title: `${title}`,
             href: "#",
         },
-
     ];
     return (
         <AppLayout breadcrumbs={breadcrumbs}>

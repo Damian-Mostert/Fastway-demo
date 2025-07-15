@@ -1,9 +1,11 @@
 <?php
 
+use App\Http\Controllers\FastwayController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
+// Base redirect
 Route::get('/', function (Request $request) {
     if (!$request->user()) {
         return redirect('/login');
@@ -13,6 +15,7 @@ Route::get('/', function (Request $request) {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // Dashboard pages
     Route::get('analytics', function (Request $request) {
         $user = $request->user();
         if (!$user) {
@@ -38,8 +41,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/quote', function () {
         return Inertia::render('quote');
     })->name('quote');
+    // Fastwway controller driven
+    Route::get('/old-quotes', [FastwayController::class, 'get_old_quotes'])->name('old-quotes');
+    Route::get('view-old-quote', [FastwayController::class, 'view_old_quote']);
+    Route::group([
+        'prefix' => '/api/v1',
+    ], function () {
+        Route::get('track-parcel', [FastwayController::class, 'track_parcel']);
+        Route::get('generate', [FastwayController::class, 'generate']);
+    });
 });
 
 require __DIR__.'/settings.php';
-require __DIR__.'/api.php';
 require __DIR__.'/auth.php';
