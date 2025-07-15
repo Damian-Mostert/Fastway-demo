@@ -42,8 +42,8 @@ export default function QuoteHistory({
                                 <td>
                                     {new Date(q.created_at).toDateString()}
                                 </td>
-                                <td>
-                                    <Link className='w-full' href={`/view-old-quote?id=${q.id}`}>
+                                <td className='flex'>
+                                    <Link href={`/view-old-quote?id=${q.id}`}>
                                         <Button className='w-full'>View</Button>
                                     </Link>
                                 </td>
