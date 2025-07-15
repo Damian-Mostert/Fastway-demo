@@ -6,7 +6,7 @@ Based off of the [Laravel React Starter kit](https://github.com/laravel/react-st
 
 ###### To install dependencies pleas run
 ```bash
-yarn i && composer install
+yarn install && composer install
 ```
 ###### To do database migrations please run
 ```bash
