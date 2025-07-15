@@ -91,7 +91,7 @@ class FastwayController extends Controller
         }
 
         return Inertia::render('old-quote', [
-            'title' => 'Generated quote',
+            'title' => $q->id,
             'body' => json_encode($q->data),
         ]);
     }
