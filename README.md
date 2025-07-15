@@ -2,8 +2,10 @@
 
 Please see Laravel documentation about env config.
 
+Based off of the [Laravel React Starter kit](https://github.com/laravel/react-starter-kit), Re skinned and modified to be a dashboard for fastway parcel tracking and quotes
+
 ###### Please run
-```plain
+```bash
 npm i && composer install && php artisan migrate
 ```
 
@@ -25,3 +27,7 @@ npm i && composer install && php artisan migrate
 ![Old Quote](./assets/generated-quote.png)
 #### Analytics
 ![Analytics](./assets/analytics.png)
+#### Settings
+![Settings](./assets/settings.png)
+#### Dark mode
+![Dark mode](./assets/dark-mode.png)
